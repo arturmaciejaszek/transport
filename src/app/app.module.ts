@@ -1,16 +1,29 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-
+import { MaterializeModule } from 'angular2-materialize';
+import { AgmCoreModule } from '@agm/core';
+import { AgmDirectionModule } from 'agm-direction';
 
 import { AppComponent } from './app.component';
+import { TransportComponent } from './transport/transport.component';
+import { environment } from '../environments/environment';
+import { MapComponent } from './map/map.component';
 
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    TransportComponent,
+    MapComponent
   ],
   imports: [
-    BrowserModule
+    AgmCoreModule.forRoot({
+      apiKey: environment.googleMaps.key,
+      libraries: ['places']
+    }),
+    AgmDirectionModule,
+    BrowserModule,
+    MaterializeModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

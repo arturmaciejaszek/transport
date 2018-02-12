@@ -1,0 +1,71 @@
+nav .brand-logo,
+nav .right > * {
+  color: #444;
+}
+
+.parallax-container {
+    min-height: 240px;
+    line-height: 0;
+    height: auto;
+    color: rgba(255,255,255,.9);
+
+    & .section {
+        width: 100%;
+      }
+
+  }
+  
+  @media only screen and (max-width : 992px) {
+    .parallax-container .section {
+      position: absolute;
+      top: 40%;
+    }
+    #index-banner .section {
+      top: 10%;
+    }
+  }
+
+footer > * {
+    color: lightgray;
+    font-size: .8rem;
+}
+
+.map-wrapper {
+  width: 80%;
+  margin: auto;
+}
+
+$text-border: rgba(255, 255, 255, 0.7);
+
+.maintext {
+  text-shadow: -1px 0 $text-border, 0 1px $text-border, 1px 0 $text-border, 0 -1px $text-border;
+}
+
+.map-info {
+  margin-top: 3rem;
+}
+
+$form-color: #3f51b5;
+
+.input-field input:focus + label,
+textarea:focus + label {
+  color: $form-color;
+}
+
+.input-field input:focus {
+  border-bottom: 1px solid $form-color;
+  box-shadow: 0 1px 0 0 $form-color;
+}
+
+textarea:focus:not([readonly]) {
+  border-bottom: 1px solid $form-color;
+  box-shadow: 0 1px 0 0 $form-color;
+}
+
+.flex {
+  display: flex;
+
+  & > form {
+    margin: auto;
+  }
+}
