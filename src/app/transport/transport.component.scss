@@ -35,6 +35,14 @@ footer > * {
   margin: auto;
 }
 
+.form-wrapper {
+  height: 80vh;
+  max-height: 95vh;
+  overflow: auto;
+  flex-direction: column;
+  justify-content: center;
+}
+
 $text-border: rgba(255, 255, 255, 0.7);
 
 .maintext {
@@ -43,6 +51,15 @@ $text-border: rgba(255, 255, 255, 0.7);
 
 .map-info {
   margin-top: 3rem;
+}
+
+.addPlace {
+  transform: scale(.7);
+}
+
+.clear {
+  color: red;
+  cursor: pointer;
 }
 
 $form-color: #3f51b5;

@@ -55,7 +55,7 @@
             </div>
         </div>
 
-        <div class="col s12 m6">
+        <div class="col s12 m6 val form-wrapper flex">
           <div class="row center flex">
             <form class="col s10" [formGroup]="form" (ngSubmit)="onSubmit()">
               
@@ -63,7 +63,8 @@
 
               <div class="input-field col s12">
                 <input  id="start" 
-                type="text" class="validate" 
+                type="text" class="validate"
+                placeholder="Wpisz lokalizację" 
                 autocorrect="off" 
                 autocapitalize="off" 
                 spellcheck="off"
@@ -73,25 +74,28 @@
               </div>
 
               <div formArrayName="waypoints">
-                <button type="button" (click)="addPlace()">Dodaj</button>
-                <div class="input-field col s12" 
+                <button class="btn-floating btn waves-effect waves-light indigo addPlace"
+                  type="button" (click)="addPlace()"><i class="material-icons">add</i></button>
+                <div class="input-field col s12 flex" 
                 *ngFor="let item of getControls(); let i = index" [formGroupName]="i">
-                    <input id="location"
-                    type="text" class="validate" 
-                    autocorrect="off" 
-                    autocapitalize="off" 
-                    spellcheck="off"
-                    #location
-                    formControlName="location">
-                    <label for="location">Punkt pośredni</label>
-                    <a (click)="deletePlace(i)"><i class="material-icons">close</i></a>
+                  <input id="location"
+                  type="text" class="validate"
+                  placeholder="Wpisz lokalizację"  
+                  autocorrect="off" 
+                  autocapitalize="off" 
+                  spellcheck="off"
+                  #location
+                  formControlName="location">
+                  <!-- <label for="location">Punkt pośredni</label> -->
+                  <a class="valign-wrapper" (click)="deletePlace(i)"><i class="material-icons clear">clear</i></a>
                 </div>
               </div>
 
 
               <div class="input-field col s12">
                 <input  id="end" 
-                type="text" class="validate" 
+                type="text" class="validate"
+                placeholder="Wpisz lokalizację"  
                 autocorrect="off" 
                 autocapitalize="off" 
                 spellcheck="off"
@@ -99,7 +103,9 @@
                 formControlName="destination" >
                 <label for="end">Punkt końcowy</label>
               </div>
-              <button type="submit">asd</button>
+              <button
+              class="btn waves-effect waves-light indigo lighten-1"
+              type="submit">Sprawdź</button>
             </form>
           </div>
         </div>
