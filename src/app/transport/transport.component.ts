@@ -1,9 +1,18 @@
-import { element } from 'protractor';
-import { Component, OnInit, ViewChild, ViewChildren, ElementRef, NgZone, AfterViewInit, QueryList } from '@angular/core';
-import { MapsAPILoader } from '@agm/core';
-import { FormGroup, FormControl, Validators, FormArray } from '@angular/forms';
+import {
+  Component,
+  OnInit,
+  ViewChild,
+  ViewChildren,
+  ElementRef,
+  NgZone,
+  AfterViewInit,
+  QueryList } from '@angular/core';
+  import { MapsAPILoader } from '@agm/core';
+  import { FormGroup, FormControl, Validators, FormArray } from '@angular/forms';
 
-import { } from 'googlemaps';
+  import { } from 'googlemaps';
+  import { Request } from './../map/request.model';
+
 
 declare var google: any;
 
@@ -13,11 +22,13 @@ declare var google: any;
   styleUrls: ['./transport.component.scss']
 })
 export class TransportComponent implements OnInit, AfterViewInit {
-  @ViewChild('start') startRef: ElementRef;
-  @ViewChild('end') endRef: ElementRef;
+  @ViewChild('origin') startRef: ElementRef;
+  @ViewChild('destination') endRef: ElementRef;
   @ViewChildren('location', { read: ElementRef }) locRefs: QueryList<ElementRef> = new QueryList<ElementRef>();
+  origin = 'Poznań';
   inputRefs: ElementRef[] = [];
   form: FormGroup;
+  request: Request = new Request('', '');
 
   constructor(private mapsApi: MapsAPILoader,  private ngZone: NgZone) { }
 
@@ -27,15 +38,20 @@ export class TransportComponent implements OnInit, AfterViewInit {
 
   formInit() {
     this.form = new FormGroup({
-      origin: new FormControl(),
-      destination: new FormControl(),
+      origin: new FormControl(this.origin, Validators.required),
+      destination: new FormControl('', Validators.required),
       waypoints: new FormArray([])
     });
   }
 
   onSubmit() {
-    console.log(this.form.value);
-    console.log(this.locRefs);
+    this.request = new Request(
+      this.form.value.origin,
+      this.form.value.destination,
+      'DRIVING',
+      this.form.value.waypoints,
+      false, true, true, true);
+    console.log(this.request);
   }
 
   addPlace() {
@@ -60,6 +76,16 @@ export class TransportComponent implements OnInit, AfterViewInit {
       autocomplete.addListener('place_changed', () => {
         this.ngZone.run(() => {
           const place = autocomplete.getPlace();
+
+          if (place.geometry !== undefined || place.geometry !== null) {
+            const id = el.nativeElement.id;
+            if (id !== 'origin' && id !== 'destination') {
+              const idx = (<FormArray>this.form.get('waypoints')).controls.length - 1;
+              (<FormGroup>(<FormArray>this.form.controls.waypoints).controls[idx]).controls[id].patchValue(place.formatted_address);
+            } else {
+              this.form.controls[id].patchValue(place.formatted_address);
+            }
+          }
 
         });
       });

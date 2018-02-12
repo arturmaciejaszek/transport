@@ -1,4 +1,4 @@
-import { Component, OnInit, AfterViewInit } from '@angular/core';
+import { Component, OnInit, AfterViewInit, Input, OnChanges } from '@angular/core';
 
 import { } from 'googlemaps';
 import { Request } from './request.model';
@@ -11,24 +11,15 @@ declare var google: any;
   templateUrl: './map.component.html',
   styleUrls: ['./map.component.scss']
 })
-export class MapComponent implements OnInit, AfterViewInit {
+export class MapComponent implements OnInit, AfterViewInit, OnChanges {
+  @Input() request: Request;
   lat = 52.40375419463349;
   lng = 16.923773288726807;
   dir = undefined;
+  showEstimate = false;
   distance: number;
-  rate: number;
-  estimate = this.distance * 1.05 * this.rate;
-
-  testRequest = new Request('Poznań', 'Warszawa', 'DRIVING', [
-    {
-      location: 'Bydgoszcz',
-      stopover: true
-    },
-    {
-      location: 'Łódź',
-      stopover: true
-    }] );
-
+  rate = 10;
+  estimate: number;
 
   constructor(private mapsApi: MapsAPILoader) {}
 
@@ -37,20 +28,34 @@ export class MapComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit() {
-    this.dir = this.testRequest;
   }
 
-  ngAfterViewInit() {
-    this.mapsApi.load().then(() => {
+  renderMap() {
+    if (this.request.origin !== undefined && this.request.destination !== undefined) {
+      this.dir = this.request;
+      this.mapsApi.load().then(() => {
       const dService = new google.maps.DirectionsService();
-      dService.route( this.testRequest, ( response, status) => {
+      dService.route( this.request, ( response, status) => {
         if (status === 'OK') {
-          console.log(response.routes[0].legs[0].distance.text);
-          this.distance = +this.extractKm(response.routes[0].legs[0].distance.text);
+          this.showEstimate = true;
+          this.distance = 0;
+          response.routes[0].legs.forEach( res => {
+            this.distance += +this.extractKm(res.distance.text);
+            this.estimate = this.distance * this.rate * 1.05 * 2;
+          });
         }
       });
     }
     );
+    }
+  }
+
+  ngAfterViewInit() {
+    this.renderMap();
+  }
+
+  ngOnChanges() {
+    this.renderMap();
   }
 
 

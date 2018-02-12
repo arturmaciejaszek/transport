@@ -2,16 +2,18 @@ import { GoogleMapsAPIWrapper, LatLng } from '@agm/core';
 
 export class Request {
     constructor(
-        public origin: LatLng | String,
-        public destination: LatLng | String,
-        public travelMode: String,
+        public origin: LatLng | string,
+        public destination: LatLng | string,
+        public travelMode?: string,
         public waypoints?: {
-            location: LatLng | String,
-            stopover: Boolean
+            location: LatLng | string,
+            stopover: boolean
         }[],
-        public provideRouteAlternatives?: Boolean,
-        public avoidFerries?: Boolean,
-        public avoidHighways?: Boolean,
-        public avoidTolls?: Boolean,
-    ) {}
+        public provideRouteAlternatives?: boolean,
+        public avoidFerries?: boolean,
+        public avoidHighways?: boolean,
+        public avoidTolls?: boolean,
+    ) {
+        this.travelMode = 'DRIVING';
+    }
 }

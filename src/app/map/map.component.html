@@ -5,8 +5,10 @@
     <agm-direction 
         *ngIf="dir" 
         [origin]="dir.origin" 
-        [destination]="dir.destination">
+        [destination]="dir.destination"
+        [waypoints]="dir.waypoints">
     </agm-direction>
 
 </agm-map>
-<p *ngIf="estimate > 0">Szacunkowa cena : {{ estimate }} brutto</p>
+<p class="estimate" *ngIf="showEstimate">Szacunkowa cena: <span>{{ estimate }}</span> PLN brutto</p>
+

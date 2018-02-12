@@ -50,7 +50,7 @@
             <p class="center map-info">Proszę o wpisanie wszystkich punktów trasy w celu otrzymania szacunkowej ceny usługi</p> 
             <div class="row center">
               <div class="map-wrapper">
-                <app-map class="responsive-img"></app-map>
+                <app-map [request]="request" class="responsive-img"></app-map>
               </div>
             </div>
         </div>
@@ -58,19 +58,17 @@
         <div class="col s12 m6 val form-wrapper flex">
           <div class="row center flex">
             <form class="col s10" [formGroup]="form" (ngSubmit)="onSubmit()">
-              
-              
 
               <div class="input-field col s12">
-                <input  id="start" 
+                <input  id="origin" 
                 type="text" class="validate"
                 placeholder="Wpisz lokalizację" 
                 autocorrect="off" 
                 autocapitalize="off" 
                 spellcheck="off"
-                #start 
+                #origin 
                 formControlName="origin">
-                <label for="start">Punkt początkowy</label>
+                <label for="origin">Punkt początkowy</label>
               </div>
 
               <div formArrayName="waypoints">
@@ -91,21 +89,20 @@
                 </div>
               </div>
 
-
               <div class="input-field col s12">
-                <input  id="end" 
+                <input  id="destination" 
                 type="text" class="validate"
                 placeholder="Wpisz lokalizację"  
                 autocorrect="off" 
                 autocapitalize="off" 
                 spellcheck="off"
-                #end
+                #destination
                 formControlName="destination" >
-                <label for="end">Punkt końcowy</label>
+                <label for="destination">Punkt końcowy</label>
               </div>
               <button
               class="btn waves-effect waves-light indigo lighten-1"
-              type="submit">Sprawdź</button>
+              type="submit" >Sprawdź</button>
             </form>
           </div>
         </div>
