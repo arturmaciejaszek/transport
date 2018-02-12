@@ -1,6 +1,16 @@
+/////////////////// TOP BAR
+
 nav .brand-logo,
 nav .right > * {
   color: #444;
+}
+
+/////////////////// PARALLAX
+
+$text-border: rgba(255, 255, 255, 0.7);
+
+.maintext {
+  text-shadow: -1px 0 $text-border, 0 1px $text-border, 1px 0 $text-border, 0 -1px $text-border;
 }
 
 .parallax-container {
@@ -25,64 +35,86 @@ nav .right > * {
     }
   }
 
-footer > * {
-    color: lightgray;
-    font-size: .8rem;
-}
+  /////////////////// MAP
+  
+  .estimator {
+    height: 80vh;
+  }
 
-.map-wrapper {
-  width: 80%;
-  margin: auto;
-}
-
-.form-wrapper {
-  height: 80vh;
-  max-height: 95vh;
-  overflow: auto;
-  flex-direction: column;
-  justify-content: center;
-}
-
-$text-border: rgba(255, 255, 255, 0.7);
-
-.maintext {
-  text-shadow: -1px 0 $text-border, 0 1px $text-border, 1px 0 $text-border, 0 -1px $text-border;
-}
-
-.map-info {
-  margin-top: 3rem;
-}
-
-.addPlace {
-  transform: scale(.7);
-}
-
-.clear {
-  color: red;
-  cursor: pointer;
-}
-
-$form-color: #3f51b5;
-
-.input-field input:focus + label,
-textarea:focus + label {
-  color: $form-color;
-}
-
-.input-field input:focus {
-  border-bottom: 1px solid $form-color;
-  box-shadow: 0 1px 0 0 $form-color;
-}
-
-textarea:focus:not([readonly]) {
-  border-bottom: 1px solid $form-color;
-  box-shadow: 0 1px 0 0 $form-color;
-}
-
-.flex {
-  display: flex;
-
-  & > form {
+  .map-wrapper {
+    width: 80%;
     margin: auto;
   }
-}
+
+  .map-info {
+    margin-top: 3rem;
+  }
+  
+  .addPlace {
+    transform: scale(.7);
+  }
+  
+  .clear {
+    color: red;
+    cursor: pointer;
+  }
+
+  .form-wrapper {
+    height: 80vh;
+    max-height: 95vh;
+    overflow: auto;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  @media only screen and (max-width : 992px) {
+    .form-wrapper {
+      height: initial;
+    }
+  }
+
+  /////////////////// CONTACT
+  
+  .contact-form {
+    margin-bottom: 3rem;
+  }
+  
+  /////////////////// FOOTER
+
+  footer > * {
+      color: lightgray;
+      font-size: .8rem;
+  }
+  
+  /////////////////// INPUTS
+
+  $form-color: #3f51b5;
+
+  .input-field input:focus + label,
+  textarea:focus + label {
+    color: $form-color;
+  }
+
+  .input-field input:focus {
+    border-bottom: 1px solid $form-color;
+    box-shadow: 0 1px 0 0 $form-color;
+  }
+
+  textarea:focus:not([readonly]) {
+    border-bottom: 1px solid $form-color;
+    box-shadow: 0 1px 0 0 $form-color;
+  }
+
+  #textarea1 {
+    height: 6rem;
+  }
+
+  /////////////////// UTILITY
+
+  .flex {
+    display: flex;
+
+    & > form {
+      margin: auto;
+    }
+  }
