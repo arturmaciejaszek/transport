@@ -57,25 +57,49 @@
 
         <div class="col s12 m6">
           <div class="row center flex">
-            <form class="col s10">
+            <form class="col s10" [formGroup]="form" (ngSubmit)="onSubmit()">
+              
+              
+
               <div class="input-field col s12">
                 <input  id="start" 
-                type="text" class="validate map-input" 
+                type="text" class="validate" 
                 autocorrect="off" 
                 autocapitalize="off" 
                 spellcheck="off"
-                #start >
+                #start 
+                formControlName="origin">
                 <label for="start">Punkt początkowy</label>
               </div>
+
+              <div formArrayName="waypoints">
+                <button type="button" (click)="addPlace()">Dodaj</button>
+                <div class="input-field col s12" 
+                *ngFor="let item of getControls(); let i = index" [formGroupName]="i">
+                    <input id="location"
+                    type="text" class="validate" 
+                    autocorrect="off" 
+                    autocapitalize="off" 
+                    spellcheck="off"
+                    #location
+                    formControlName="location">
+                    <label for="location">Punkt pośredni</label>
+                    <a (click)="deletePlace(i)"><i class="material-icons">close</i></a>
+                </div>
+              </div>
+
+
               <div class="input-field col s12">
                 <input  id="end" 
-                type="text" class="validate map-input" 
+                type="text" class="validate" 
                 autocorrect="off" 
                 autocapitalize="off" 
                 spellcheck="off"
-                #end >
+                #end
+                formControlName="destination" >
                 <label for="end">Punkt końcowy</label>
               </div>
+              <button type="submit">asd</button>
             </form>
           </div>
         </div>
