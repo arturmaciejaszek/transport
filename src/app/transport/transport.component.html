@@ -141,8 +141,19 @@
                 <label for="textarea1">wiadomość</label>
             </div>
             <div class="row center">
-                <button type="submit" [disabled]="!f.valid"
+                <button type="submit" [disabled]="!f.valid" *ngIf="!hideButton"
                 class="btn waves-effect waves-light indigo lighten-1">Wyślij</button>
+                <div class="preloader-wrapper small active" *ngIf="showSpinner">
+                  <div class="spinner-layer spinner-blue-only">
+                    <div class="circle-clipper left">
+                      <div class="circle"></div>
+                    </div><div class="gap-patch">
+                      <div class="circle"></div>
+                    </div><div class="circle-clipper right">
+                      <div class="circle"></div>
+                    </div>
+                  </div>
+                </div>
             </div>
           </div>
         </form>

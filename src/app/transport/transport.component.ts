@@ -14,7 +14,7 @@ import { FormGroup, FormControl, Validators, FormArray, NgForm } from '@angular/
 import { } from 'googlemaps';
 import { Request } from './../map/request.model';
 import { Http, Headers, HttpModule } from '@angular/http';
-
+import 'rxjs/add/operator/do';
 
 declare var google: any;
 
@@ -33,6 +33,8 @@ export class TransportComponent implements OnInit, AfterViewInit {
   request: Request = new Request('', '');
   link: string;
   est: {distance: number, estimate: number} = {distance: null, estimate: null};
+  showSpinner = false;
+  hideButton = false;
 
   constructor(private mapsApi: MapsAPILoader,  private ngZone: NgZone, private http: Http) { }
 
@@ -53,6 +55,8 @@ export class TransportComponent implements OnInit, AfterViewInit {
   }
 
   onSend(f: NgForm) {
+    this.showSpinner = true;
+    this.hideButton = true;
     this.sendMail({
       name: f.value.name,
       email: f.value.email,
@@ -62,9 +66,17 @@ export class TransportComponent implements OnInit, AfterViewInit {
       dist: this.est.distance,
       est: this.est.estimate
     }).subscribe(
-      res => console.log(res)
-      // MAKE THE RESPONSE POP UP OR SMTH
+      res => {
+        this.showSpinner = false;
+          this.hideButton = false;
+        if (res.json()) {
+          console.log('success');
+        } else {
+          console.log('failure');
+        }
+      }
     );
+    f.reset();
   }
 
   sendMail({name: name, email: email, phone: phone, msg: msg, link: link, dist: dist, est: est }) {
@@ -88,7 +100,7 @@ export class TransportComponent implements OnInit, AfterViewInit {
       'DRIVING',
       this.form.value.waypoints,
       false, true, true, true);
-    this.generateIframe();
+    this.generateLink();
   }
 
   addPlace() {
