@@ -14,7 +14,7 @@ import { FormGroup, FormControl, Validators, FormArray, NgForm } from '@angular/
 import { } from 'googlemaps';
 import { Request } from './../map/request.model';
 import { Http, Headers, HttpModule } from '@angular/http';
-import 'rxjs/add/operator/do';
+import { FlashMessagesService } from 'angular2-flash-messages';
 
 declare var google: any;
 
@@ -35,8 +35,13 @@ export class TransportComponent implements OnInit, AfterViewInit {
   est: {distance: number, estimate: number} = {distance: null, estimate: null};
   showSpinner = false;
   hideButton = false;
+  green = false;
+  red = false;
 
-  constructor(private mapsApi: MapsAPILoader,  private ngZone: NgZone, private http: Http) { }
+
+  constructor(private mapsApi: MapsAPILoader,
+              private ngZone: NgZone,
+              private http: Http) { }
 
   ngOnInit() {
     this.formInit();
@@ -68,11 +73,18 @@ export class TransportComponent implements OnInit, AfterViewInit {
     }).subscribe(
       res => {
         this.showSpinner = false;
-          this.hideButton = false;
         if (res.json()) {
-          console.log('success');
+          this.green = true;
+          setTimeout(() => {
+            this.green = false;
+            this.hideButton = false;
+          }, 1000);
         } else {
-          console.log('failure');
+          this.red = true;
+          setTimeout(() => {
+            this.red = false;
+            this.hideButton = false;
+          } , 1000);
         }
       }
     );
