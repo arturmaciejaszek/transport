@@ -1,3 +1,4 @@
+import { environment } from './../../environments/environment';
 import {
   Component,
   OnInit,
@@ -7,11 +8,12 @@ import {
   NgZone,
   AfterViewInit,
   QueryList } from '@angular/core';
-  import { MapsAPILoader } from '@agm/core';
-  import { FormGroup, FormControl, Validators, FormArray } from '@angular/forms';
+import { MapsAPILoader } from '@agm/core';
+import { FormGroup, FormControl, Validators, FormArray, NgForm } from '@angular/forms';
 
-  import { } from 'googlemaps';
-  import { Request } from './../map/request.model';
+import { } from 'googlemaps';
+import { Request } from './../map/request.model';
+import { Http, Headers, HttpModule } from '@angular/http';
 
 
 declare var google: any;
@@ -29,11 +31,17 @@ export class TransportComponent implements OnInit, AfterViewInit {
   inputRefs: ElementRef[] = [];
   form: FormGroup;
   request: Request = new Request('', '');
+  link: string;
+  est: {distance: number, estimate: number} = {distance: null, estimate: null};
 
-  constructor(private mapsApi: MapsAPILoader,  private ngZone: NgZone) { }
+  constructor(private mapsApi: MapsAPILoader,  private ngZone: NgZone, private http: Http) { }
 
   ngOnInit() {
     this.formInit();
+  }
+
+  setEst(e) {
+    this.est = e;
   }
 
   formInit() {
@@ -44,6 +52,35 @@ export class TransportComponent implements OnInit, AfterViewInit {
     });
   }
 
+  onSend(f: NgForm) {
+    this.sendMail({
+      name: f.value.name,
+      email: f.value.email,
+      phone: f.value.phone,
+      msg: f.value.msg,
+      link: this.link,
+      dist: this.est.distance,
+      est: this.est.estimate
+    }).subscribe(
+      res => console.log(res)
+      // MAKE THE RESPONSE POP UP OR SMTH
+    );
+  }
+
+  sendMail({name: name, email: email, phone: phone, msg: msg, link: link, dist: dist, est: est }) {
+    const headers = new Headers();
+    headers.append('Content-Type', 'application/json');
+    return this.http.post('https://us-central1-transport-maciejaszek.cloudfunctions.net/sendEmail', {
+      name: name,
+      email: email,
+      phone: phone,
+      msg: msg,
+      link: link,
+      dist: dist,
+      est: est
+    }, {headers: headers});
+  }
+
   onSubmit() {
     this.request = new Request(
       this.form.value.origin,
@@ -51,7 +88,7 @@ export class TransportComponent implements OnInit, AfterViewInit {
       'DRIVING',
       this.form.value.waypoints,
       false, true, true, true);
-    console.log(this.request);
+    this.generateIframe();
   }
 
   addPlace() {
@@ -66,6 +103,22 @@ export class TransportComponent implements OnInit, AfterViewInit {
 
   deletePlace(i: number) {
     (<FormArray>this.form.get('waypoints')).removeAt(i);
+  }
+
+  generateLink() {
+    this.link = 'https://www.google.pl/maps/dir/';
+    this.link += this.request.origin + '/';
+    this.request.waypoints.forEach( res => this.link += res.location + '/' );
+    this.link += this.request.destination + '/';
+    this.link = this.link.replace(/\s/g, '');
+  }
+
+  generateIframe() {
+    this.link = 'https://www.google.com/maps/embed/v1/directions?key=' + environment.googleMaps.key;
+    this.link += '&origin=' + this.request.origin;
+    this.request.waypoints.forEach( res => this.link += '&waypoints=' + res.location );
+    this.link += '&destination=' + this.request.destination;
+    this.link = this.link.replace(/\s/g, '');
   }
 
   setAutocomplete(el: ElementRef) {

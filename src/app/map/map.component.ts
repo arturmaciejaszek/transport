@@ -1,8 +1,9 @@
-import { Component, OnInit, AfterViewInit, Input, OnChanges } from '@angular/core';
+import { Component, OnInit, AfterViewInit, Input, OnChanges, Output, EventEmitter } from '@angular/core';
 
 import { } from 'googlemaps';
 import { Request } from './request.model';
 import { MapsAPILoader } from '@agm/core';
+
 
 declare var google: any;
 
@@ -13,6 +14,7 @@ declare var google: any;
 })
 export class MapComponent implements OnInit, AfterViewInit, OnChanges {
   @Input() request: Request;
+  @Output() estimateEmitter = new EventEmitter<{distance: number, estimate: number}>();
   lat = 52.40375419463349;
   lng = 16.923773288726807;
   dir = undefined;
@@ -42,6 +44,7 @@ export class MapComponent implements OnInit, AfterViewInit, OnChanges {
           response.routes[0].legs.forEach( res => {
             this.distance += +this.extractKm(res.distance.text);
             this.estimate = this.distance * this.rate * 1.05 * 2;
+            this.estimateEmitter.emit({distance: this.distance, estimate: this.estimate});
           });
         }
       });

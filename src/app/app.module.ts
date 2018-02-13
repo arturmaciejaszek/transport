@@ -1,3 +1,4 @@
+import { HttpModule } from '@angular/http';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { MaterializeModule } from 'angular2-materialize';
@@ -23,6 +24,7 @@ const appRoutes: Routes = [
     MapComponent,
   ],
   imports: [
+    HttpModule,
     AgmCoreModule.forRoot({
       apiKey: environment.googleMaps.key,
       libraries: ['places']
