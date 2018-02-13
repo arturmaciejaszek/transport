@@ -75,7 +75,8 @@
                 <button class="btn-floating btn waves-effect waves-light indigo addPlace"
                   type="button" (click)="addPlace()"><i class="material-icons">add</i></button>
                 <div class="input-field col s12 flex" 
-                *ngFor="let item of getControls(); let i = index" [formGroupName]="i">
+                *ngFor="let item of getControls(); let i = index" [formGroupName]="i"
+                [@fadeInOut]>
                   <input id="location"
                   type="text" class="validate"
                   placeholder="Wpisz lokalizację"  

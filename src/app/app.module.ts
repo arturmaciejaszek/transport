@@ -1,11 +1,12 @@
 import { HttpModule } from '@angular/http';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
+import { FormsModule, ReactiveFormsModule, } from '@angular/forms';
+import { RouterModule, Routes } from '@angular/router';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MaterializeModule } from 'angular2-materialize';
 import { AgmCoreModule } from '@agm/core';
 import { AgmDirectionModule } from 'agm-direction';
-import { FormsModule, ReactiveFormsModule, } from '@angular/forms';
-import { RouterModule, Routes } from '@angular/router';
 
 import { AppComponent } from './app.component';
 import { TransportComponent } from './transport/transport.component';
@@ -31,6 +32,7 @@ const appRoutes: Routes = [
     }),
     AgmDirectionModule,
     FormsModule,
+    BrowserAnimationsModule,
     ReactiveFormsModule,
     BrowserModule,
     MaterializeModule,

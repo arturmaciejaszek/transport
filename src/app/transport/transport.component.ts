@@ -8,20 +8,33 @@ import {
   NgZone,
   AfterViewInit,
   QueryList } from '@angular/core';
-import { MapsAPILoader } from '@agm/core';
+import { Http, Headers, HttpModule } from '@angular/http';
 import { FormGroup, FormControl, Validators, FormArray, NgForm } from '@angular/forms';
+import { trigger, keyframes, transition, animate, state, style  } from '@angular/animations';
+
+import { MapsAPILoader } from '@agm/core';
 
 import { } from 'googlemaps';
 import { Request } from './../map/request.model';
-import { Http, Headers, HttpModule } from '@angular/http';
-import { FlashMessagesService } from 'angular2-flash-messages';
 
 declare var google: any;
 
 @Component({
   selector: 'app-transport',
   templateUrl: './transport.component.html',
-  styleUrls: ['./transport.component.scss']
+  styleUrls: ['./transport.component.scss'],
+  animations: [
+    trigger('fadeInOut', [
+      state('in', style({transform: 'translateY(0)'})),
+      transition('void => *', [
+        style({transform: 'translateY(-3rem)'}),
+        animate(300)
+      ]),
+      transition('* => void', [
+        animate(300, style({transform: 'translateX(10rem)'}))
+      ])
+    ])
+  ]
 })
 export class TransportComponent implements OnInit, AfterViewInit {
   @ViewChild('origin') startRef: ElementRef;
